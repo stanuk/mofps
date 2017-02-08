@@ -1,0 +1,51 @@
+<html>
+	<head>
+		<title>MOFPS</title>
+		<style>
+			body{
+				margin: 0px;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body oncontextmenu = "return false;">
+
+		<script src="/client/js/three.min.js"></script>
+		<script src="/client/js/client_world.js"></script>
+
+		<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+		<script>
+			var socket = io();
+
+			socket.on('connect', function(){
+				loadWorld();
+				socket.emit('requestOldPlayers', {});
+			});
+
+			socket.on('createPlayer', function(data){
+				createPlayer(data);
+			});
+
+			socket.on('updatePosition', function(data){
+				updatePlayerPosition(data);
+			});
+
+			socket.on('addOtherPlayer', function(data){
+				addOtherPlayer(data);
+			});
+
+			socket.on('removeOtherPlayer', function(data){
+				removeOtherPlayer(data);
+			});
+
+			//listen for messages from the server
+			socket.on('serverMsg', function(data){
+				console.log(data.msg);
+			});
+		</script>
+		<div id="container"></div>		
+	</body>
+</html>
+
+
+
